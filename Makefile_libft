@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile_fsanitize                                 :+:      :+:    :+:    #
+#    Makefile_libft                                     :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: lbertran <lbertran@student.42lyon.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/18 16:40:32 by lbertran          #+#    #+#              #
-#    Updated: 2021/03/16 14:23:19 by lbertran         ###   ########lyon.fr    #
+#    Updated: 2021/03/16 14:23:17 by lbertran         ###   ########lyon.fr    #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,22 +18,25 @@ NAME	= program
 LIBC	= ar rcs
 CC		= gcc
 RM		= rm -f
-CFLAGS	= -Wall -Wextra -Werror -g3 -fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g3 -O3
 
 srcs/%.o: srcs/%.c ${INCS}
 	${CC} ${CFLAGS} -c $< -o $@ -I${INCS}
 
 ${NAME}: ${OBJS}
-	${CC} -g3 -fsanitize=address -o ${NAME} ${OBJS}
+	@${MAKE} bonus -C ./libft
+	${CC} -o ${NAME} ${OBJS} libft/libft.a
 all: ${NAME}
 
 bonus: all
 
 clean:
+	${MAKE} clean -C ./libft
 	${RM} ${OBJS}
 	${RM} a.out
 
 fclean: clean
+	${MAKE} fclean -C ./libft
 	${RM} ${NAME}
 
 re: fclean all
